@@ -1,0 +1,18 @@
+{% extends 'tourism_app/base.html' %}
+{% block title %}Our Services - Jabalpur & Narsinghpur Tourism{% endblock %}
+{% block content %}
+<section class="container">
+  <h2>All Services</h2>
+  <div class="services-grid">
+    {% for service in services %}
+      <div class="service-card">
+        <i class="{{ service.icon_class }}"></i>
+        <h3>{{ service.name }}</h3>
+        <p>{{ service.description }}</p>
+      </div>
+    {% empty %}
+      <p>No services available.</p>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

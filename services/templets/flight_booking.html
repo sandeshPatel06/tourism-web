@@ -1,0 +1,13 @@
+{% extends 'tourism_app/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Flight Booking - Jabalpur & Narsinghpur Tourism{% endblock %}
+{% block content %}
+<section class="container">
+  <h2>Book a Flight</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <button type="submit" class="btn">Book Flight</button>
+  </form>
+</section>
+{% endblock %}

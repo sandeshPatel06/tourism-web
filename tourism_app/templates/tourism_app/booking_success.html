@@ -1,0 +1,33 @@
+{% extends 'tourism_app/base.html' %}
+{% load static %}
+
+{% block title %}Booking Successful - Jabalpur & Narsinghpur Tourism{% endblock %}
+
+{% block content %}
+<section class="success-section">
+  <div class="container">
+    <div class="success-card">
+      <div class="success-icon">
+        <i class="fas fa-check-circle"></i>
+      </div>
+      <h1>Booking Successful!</h1>
+      <p>Thank you for booking with Jabalpur & Narsinghpur Tourism. Your reservation has been confirmed.</p>
+      <p>A confirmation email has been sent to your email address with all the details.</p>
+      
+      <div class="next-steps">
+        <h3>What's Next?</h3>
+        <ul>
+          <li>Check your email for booking confirmation</li>
+          <li>Review your booking details in your profile</li>
+          <li>Prepare for your amazing journey</li>
+        </ul>
+      </div>
+      
+      <div class="buttons">
+        <a href="{% url 'my_bookings' %}" class="btn btn-primary">View My Bookings</a>
+        <a href="{% url 'index' %}" class="btn btn-secondary">Return to Home</a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

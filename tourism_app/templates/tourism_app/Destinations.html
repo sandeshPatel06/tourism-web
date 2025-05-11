@@ -1,0 +1,39 @@
+{% extends 'tourism_app/base.html' %}
+{% load static %}
+
+{% block title %}Destinations - Jabalpur & Narsinghpur Tourism{% endblock %}
+
+{% block content %}
+  <!-- Destinations Banner -->
+  <section class="page-banner">
+    <div class="container">
+      <h1>Explore Our Destinations</h1>
+      <p>Discover the beauty and culture of Jabalpur & Narsinghpur</p>
+    </div>
+  </section>
+
+  <!-- Destinations List -->
+  <section class="destinations-page">
+    <div class="container">
+      <div class="destinations-grid">
+        {% if destinations %}
+          {% for destination in destinations %}
+            <div class="destination-card">
+              <img src="{{ destination.image.url }}" alt="{{ destination.name }}">
+              <div class="destination-details">
+                <h3>{{ destination.name }}</h3>
+                <p class="location"><i class="fas fa-map-marker-alt"></i> {{ destination.location }}</p>
+                <p class="description">{{ destination.description|truncatewords:20 }}</p>
+                <a href="{% url 'destination_detail' destination.id %}" class="btn">View Details</a>
+              </div>
+            </div>
+          {% endfor %}
+        {% else %}
+          <div class="no-destinations">
+            <p>No destinations available at the moment. Please check back later.</p>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+{% endblock %}

@@ -1,0 +1,145 @@
+{% extends 'tourism_app/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}Jabalpur & Narsinghpur Tourism - Home{% endblock %}
+
+{% block content %}
+  <!-- Hero Section -->
+  <section id="home">
+    <img alt="A beautiful scenic view of mountains and a lake" src="{% static 'images/hero-image.jpg' %}" />
+    <div class="overlay">
+      <h1>
+        Explore Jabalpur & Narsinghpur Tourism
+      </h1>
+      <p>
+        Discover new places with us
+      </p>
+      <a class="btn" href="{% url 'destinations' %}">
+        Get Started
+      </a>
+    </div>
+  </section>
+
+  <!-- Destinations Section -->
+  <section id="destinations">
+    <div class="container">
+      <h2>
+        Popular Destinations
+      </h2>
+      <div class="destinations-grid">
+        {% if popular_destinations %}
+          {% for destination in popular_destinations %}
+            <div class="destination-card">
+              <img src="{{ destination.image.url }}" alt="{{ destination.name }}">
+              <div class="destination-overlay">
+                {{ destination.name }}
+              </div>
+            </div>
+          {% endfor %}
+        {% else %}
+          <div class="no-destinations">
+            <p>No destinations available at the moment.</p>
+          </div>
+        {% endif %}
+      </div>
+      <div class="text-center mt-4">
+        <a href="{% url 'destinations' %}" class="btn">View All Destinations</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Section -->
+  <section id="services">
+    <div class="container">
+      <h2>
+        Our Services
+      </h2>
+      <div class="services-grid">
+        {% if services %}
+          {% for service in services %}
+            <div class="service-card">
+              <i class="{{ service.icon_class }}"></i>
+              <h3>{{ service.name }}</h3>
+              <p>{{ service.description }}</p>
+              {% if service.service_type == 'flight' %}
+                <a class="btn" href="{% url 'flight_booking' %}">Book Now</a>
+              {% elif service.service_type == 'hotel' %}
+                <a class="btn" href="{% url 'hotel_booking' %}">Book Now</a>
+              {% elif service.service_type == 'car' %}
+                <a class="btn" href="{% url 'car_rental' %}">Book Now</a>
+              {% endif %}
+            </div>
+          {% endfor %}
+        {% else %}
+          <div class="no-services">
+            <p>No services available at the moment.</p>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+
+  <!-- Booking Section -->
+  <section id="booking">
+    <div class="container">
+      <h2>Book Your Trip</h2>
+      <div class="booking-cta">
+        <p>Ready to start your adventure? Book your trip now!</p>
+        <a href="{% url 'booking' %}" class="btn">Book Now</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section id="testimonials">
+    <div class="container">
+      <h2>What Our Clients Say</h2>
+      <div class="testimonials-grid">
+        {% if testimonials %}
+          {% for testimonial in testimonials %}
+            <div class="testimonial-card">
+              {% if testimonial.image %}
+                <img src="{{ testimonial.image.url }}" alt="{{ testimonial.name }}">
+              {% else %}
+                <img src="{% static 'images/default-avatar.jpg' %}" alt="Default profile">
+              {% endif %}
+              <p>"{{ testimonial.message }}"</p>
+              <h3>{{ testimonial.email }}</h3>
+            </div>
+          {% endfor %}
+        {% else %}
+          <div class="no-testimonials">
+            <p>No testimonials available yet.</p>
+          </div>
+        {% endif %}
+      </div>
+      <div class="text-center mt-4">
+        <a href="{% url 'testimonial' %}" class="btn">Submit Your Experience</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact">
+    <div class="container">
+      <h2>Get in Touch</h2>
+      <form class="contact-form" method="post" action="#contact">
+        {% csrf_token %}
+        {{ contact_form|crispy }}
+        <button class="btn" type="submit">Send Message</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Google Map Embed -->
+  <section class="map-section">
+    <div class="container">
+      <h2>Our Locations</h2>
+      <div class="map-container">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3650.908321885321!2d79.1855150149818!3d22.31216338531233!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3982281cbf5cbcb3%3A0x24d2bd41d92ddbd3!2sNarsinghpur%2C%20Madhya%20Pradesh!5e0!3m2!1sen!2sin!4v1644505625890!5m2!1sen!2sin"
+          allowfullscreen="" loading="lazy"></iframe>
+      </div>
+    </div>
+  </section>
