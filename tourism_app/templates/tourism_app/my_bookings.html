@@ -1,0 +1,41 @@
+
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">My Bookings</h2>
+    {% if bookings %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Service</th>
+                    <th>Destination</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Booked On</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for booking in bookings %}
+                    <tr>
+                        <td>{{ booking.get_service_type_display }}</td>
+                        <td>{{ booking.destination }}</td>
+                        <td>{{ booking.date }}</td>
+                        <td>
+                            <span class="badge 
+                                {% if booking.status == 'confirmed' %}bg-success
+                                {% elif booking.status == 'cancelled' %}bg-danger
+                                {% else %}bg-warning text-dark
+                                {% endif %}">
+                                {{ booking.get_status_display }}
+                            </span>
+                        </td>
+                        <td>{{ booking.created_at|date:"Y-m-d H:i" }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>You have no bookings yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

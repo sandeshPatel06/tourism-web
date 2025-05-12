@@ -1,0 +1,58 @@
+{% extends 'tourism_app/base.html' %}
+{% load static %}
+
+{% block title %}My Bookings - Jabalpur & Narsinghpur Tourism{% endblock %}
+
+{% block content %}
+  <!-- Bookings Banner -->
+  <section class="page-banner">
+    <div class="container">
+      <h1>My Bookings</h1>
+      <p>View and manage your bookings for travel services</p>
+    </div>
+  </section>
+
+  <!-- Bookings List -->
+  <section class="my-bookings-section">
+    <div class="container">
+      {% if bookings %}
+        <div class="bookings-table">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Service</th>
+                <th>Destination</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Booked On</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for booking in bookings %}
+                <tr>
+                  <td>{{ booking.get_service_type_display }}</td>
+                  <td>{{ booking.destination }}</td>
+                  <td>{{ booking.date }}</td>
+                  <td>
+                    <span class="badge 
+                      {% if booking.status == 'confirmed' %}bg-success
+                      {% elif booking.status == 'cancelled' %}bg-danger
+                      {% else %}bg-warning text-dark
+                      {% endif %}">
+                      {{ booking.get_status_display }}
+                    </span>
+                  </td>
+                  <td>{{ booking.created_at|date:"Y-m-d H:i" }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+    
+        <div class="no-bookings text-center">
+          <p>You haven’t made any bookings yet. Start planning your journey today!</p>
+        </div>
+      {% endif %}
+    </div>
+  </section>
+{% endblock %}
