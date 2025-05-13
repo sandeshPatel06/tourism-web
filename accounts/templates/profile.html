@@ -1,0 +1,193 @@
+{% extends 'tourism_app/base.html' %}
+{% load static %}
+
+{% block title %}User Profile - Jabalpur & Narsinghpur Tourism{% endblock %}
+
+{% block content %}
+<style>
+  .profile-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 150px;
+    background-color: #fefefe;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .profile-title {
+    text-align: center;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: #2c3e50;
+  }
+
+  .user-info {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    gap: 15px;
+  }
+
+  .user-info div {
+    flex: 1 1 45%;
+    background: #ecf0f1;
+    padding: 15px 20px;
+    border-radius: 6px;
+    color: #34495e;
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.05);
+  }
+
+  .user-info label {
+    font-weight: 600;
+    display: block;
+    margin-bottom: 6px;
+    color: #2980b9;
+  }
+
+  h3 {
+    font-size: 22px;
+    color: #34495e;
+    margin-bottom: 12px;
+    border-bottom: 2px solid #2980b9;
+    padding-bottom: 4px;
+  }
+
+  .booking-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 15px;
+    color: #34495e;
+  }
+
+  .booking-table th, .booking-table td {
+    padding: 14px 12px;
+    border-bottom: 1px solid #dcdde1;
+    text-align: left;
+  }
+
+  .booking-table th {
+    background-color: #2980b9;
+    color: white;
+    font-weight: 600;
+  }
+
+  .status-badge {
+    padding: 6px 12px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 13px;
+    color: white;
+    white-space: nowrap;
+  }
+
+  .status-confirmed {
+    background-color: #27ae60; /* green */
+  }
+
+  .status-cancelled {
+    background-color: #c0392b; /* red */
+  }
+
+  .status-pending {
+    background-color: #f39c12; /* orange */
+    color: #2c3e50;
+  }
+
+  .no-bookings-message {
+    text-align: center;
+    font-size: 18px;
+    color: #7f8c8d;
+    margin: 25px 0;
+  }
+
+  @media (max-width: 600px) {
+    .user-info div {
+      flex: 1 1 100%;
+    }
+
+    .booking-table th, .booking-table td {
+      padding: 10px 8px;
+      font-size: 13px;
+    }
+
+    .profile-container {
+      padding: 15px;
+      margin: 20px 10px;
+    }
+  }
+</style>
+
+<div class="profile-container">
+  <h2 class="profile-title">User Profile</h2>
+  
+  <section class="user-info">
+    <div>
+      <label>Full Name:</label>
+      <span>{{ request.user.get_full_name|default:request.user.username }}</span>
+    </div>
+    <div>
+      <label>Username:</label>
+      <span>{{ request.user.username }}</span>
+    </div>
+    <div>
+      <label>Email:</label>
+      <span>{{ request.user.email|default:"Not Provided" }}</span>
+    </div>
+    <div>
+      <label>Joined On:</label>
+      <span>{{ request.user.date_joined|date:"F j, Y" }}</span>
+    </div>
+  </section>
+  
+  <h3>My Bookings</h3>
+  {% if bookings %}
+      <table class="booking-table" summary="List of your service bookings">
+        <thead>
+          <tr>
+            <th>Service</th>
+            <th>Destination</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Booked On</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for booking in bookings %}
+            <tr>
+              <td>{{ booking.get_service_type_display }}</td>
+              <td>{{ booking.destination }}</td>
+              <td>{{ booking.date }}</td>
+              <td>
+                <span class="status-badge 
+                  {% if booking.status == 'confirmed' %}status-confirmed
+                  {% elif booking.status == 'cancelled' %}status-cancelled
+                  {% else %}status-pending
+                  {% endif %}">
+                  {{ booking.get_status_display }}
+                </span>
+            </td>
+            <td>{{ booking.created_at|date:"Y-m-d H:i" }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p class="no-bookings-message">You have no bookings yet.</p>
+{% endif %}
+
+  <!-- Booking Section -->
+  <section id="booking">
+    <div class="container">
+      <h2>Book Your Trip</h2>
+      <div class="booking-cta">
+        <p>Ready to start your adventure? Book your trip now!</p>
+        <a href="{% url 'booking' %}" class="btn">Book Now</a>
+      </div>
+    </div>
+  </section>
+</div>
+{%include 'tourism_app/footer.html'%}
+{% endblock %}

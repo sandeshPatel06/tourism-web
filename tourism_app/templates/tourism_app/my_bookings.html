@@ -1,10 +1,61 @@
-
-
+{% extends 'tourism_app/base.html' %}
+{% load static %}
 {% block content %}
-<div class="container mt-5">
-    <h2 class="mb-4">My Bookings</h2>
+<style>.booking-container {
+    margin: 50px auto;
+    max-width: 800px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.booking-title {
+    margin-bottom: 20px;
+    font-size: 24px;
+    text-align: center;
+}
+
+.booking-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.booking-table th, .booking-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.status-badge {
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: white;
+}
+
+.status-confirmed {
+    background-color: #28a745; /* Green */
+}
+
+.status-cancelled {
+    background-color: #dc3545; /* Red */
+}
+
+.status-pending {
+    background-color: #ffc107; /* Yellow */
+    color: black;
+}
+
+.no-bookings-message {
+    text-align: center;
+    font-size: 18px;
+    color: #666;
+}
+</style>
+<div class="booking-container">
+    <h2 class="booking-title">My Bookings</h2>
     {% if bookings %}
-        <table class="table table-striped">
+        <table class="booking-table">
             <thead>
                 <tr>
                     <th>Service</th>
@@ -21,10 +72,10 @@
                         <td>{{ booking.destination }}</td>
                         <td>{{ booking.date }}</td>
                         <td>
-                            <span class="badge 
-                                {% if booking.status == 'confirmed' %}bg-success
-                                {% elif booking.status == 'cancelled' %}bg-danger
-                                {% else %}bg-warning text-dark
+                            <span class="status-badge 
+                                {% if booking.status == 'confirmed' %}status-confirmed
+                                {% elif booking.status == 'cancelled' %}status-cancelled
+                                {% else %}status-pending
                                 {% endif %}">
                                 {{ booking.get_status_display }}
                             </span>
@@ -35,7 +86,7 @@
             </tbody>
         </table>
     {% else %}
-        <p>You have no bookings yet.</p>
+        <p class="no-bookings-message">You have no bookings yet.</p>
     {% endif %}
 </div>
 {% endblock %}

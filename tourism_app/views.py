@@ -9,7 +9,7 @@ def index(request):
     """View for the homepage."""
     popular_destinations = Destination.objects.filter(popular=True)[:3]
     services = Service.objects.all()[:3]
-    testimonials = Testimonial.objects.filter(is_approved=True)[:3]
+    testimonials = Testimonial.objects.all()
     
     # Handle contact form submission
     if request.method == 'POST':
@@ -82,10 +82,6 @@ def service_detail(request, service_id):
     service = get_object_or_404(Service, pk=service_id)
     return render(request, 'tourism_app/service_detail.html', {'service': service})
 
-def destination_detail(request, destination_id):
-    """View for destination details."""
-    destination = get_object_or_404(Destination, pk=destination_id)
-    return render(request, 'tourism_app/destination_detail.html', {'destination': destination})
 
 def service_view(request):
     """View to list all services."""
@@ -104,3 +100,7 @@ def service_create(request):
     else:
         form = ServiceForm()
     return render(request, 'tourism_app/service_form.html', {'form': form})
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+
+# Existing views here...

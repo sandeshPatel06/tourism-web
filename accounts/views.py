@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.forms import AuthenticationForm
 from tourism_app.forms import UserRegisterForm
-
+from django.contrib.auth import logout
 def register(request):
     """View for user registration."""
     if request.method == 'POST':
@@ -32,6 +32,17 @@ def login_view(request):
         form = AuthenticationForm()
     return render(request, 'login.html', {'form': form})
 
+# def profile(request):
+#     """View for user profile."""
+#     return render(request, 'profile.html')
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from tourism_app.models import Booking
+@login_required
 def profile(request):
-    """View for user profile."""
-    return render(request, 'profile.html')
+    bookings = Booking.objects.filter(user=request.user)
+    return render(request, 'profile.html', {'bookings': bookings})
+@login_required
+def logout_view(request):
+    logout(request)
+    return redirect('/')  

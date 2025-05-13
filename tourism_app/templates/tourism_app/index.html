@@ -7,7 +7,7 @@
 {% block content %}
   <!-- Hero Section -->
   <section id="home">
-    <img alt="A beautiful scenic view of mountains and a lake" src="{% static 'images/hero-image.jpg' %}" />
+    <img alt="A beautiful scenic view of mountains and a lake" src="{% static 'images/dada_maharaj.jpg' %}" />
     <div class="overlay">
       <h1>
         Explore Jabalpur & Narsinghpur Tourism
@@ -44,7 +44,7 @@
         {% endif %}
       </div>
       <div class="text-center mt-4">
-        <a href="{% url 'destinations' %}" class="btn">View All Destinations</a>
+        <!-- <a href="{% url 'destinations' %}" class="btn">View All Destinations</a> -->
       </div>
     </div>
   </section>
@@ -76,17 +76,6 @@
             <p>No services available at the moment.</p>
           </div>
         {% endif %}
-      </div>
-    </div>
-  </section>
-
-  <!-- Booking Section -->
-  <section id="booking">
-    <div class="container">
-      <h2>Book Your Trip</h2>
-      <div class="booking-cta">
-        <p>Ready to start your adventure? Book your trip now!</p>
-        <a href="{% url 'booking' %}" class="btn">Book Now</a>
       </div>
     </div>
   </section>
@@ -152,4 +141,6 @@
       </div>
     </div>
   </section>
+  
+{%include 'tourism_app/footer.html'%}
 {% endblock %}
